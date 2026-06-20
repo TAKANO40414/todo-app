@@ -280,8 +280,8 @@
   </div>
 </div>
 
-<!-- 投稿一覧（常時表示） -->
-<main>
+<!-- 投稿一覧（ログイン時のみ表示） -->
+<main id="boardPanel" style="display:none">
   <div id="statusMsg" class="status">読み込み中...</div>
   <div class="post-list" id="postList"></div>
 </main>
@@ -377,22 +377,26 @@
   });
 
   // ── 認証状態の監視（ログイン／ログアウトで UI を切り替え） ──
+  const boardPanel = document.getElementById('boardPanel');
+
   supabase.auth.onAuthStateChange((_event, session) => {
     if (session?.user) {
       // ログイン中
-      userEmailEl.textContent  = session.user.email;
-      headerUser.style.display = 'flex';
-      headerSub.textContent    = 'ログイン中';
-      authPanel.style.display  = 'none';
-      postPanel.style.display  = 'flex';
+      userEmailEl.textContent   = session.user.email;
+      headerUser.style.display  = 'flex';
+      headerSub.textContent     = 'ログイン中';
+      authPanel.style.display   = 'none';
+      postPanel.style.display   = 'flex';
+      boardPanel.style.display  = 'block';
+      loadPosts();
     } else {
       // 未ログイン
-      headerUser.style.display = 'none';
-      headerSub.textContent    = '投稿にはログインが必要です';
-      authPanel.style.display  = 'block';
-      postPanel.style.display  = 'none';
+      headerUser.style.display  = 'none';
+      headerSub.textContent     = 'ログインして投稿を見る';
+      authPanel.style.display   = 'block';
+      postPanel.style.display   = 'none';
+      boardPanel.style.display  = 'none';
     }
-    loadPosts();
   });
 
   // ── 投稿バリデーション ──
