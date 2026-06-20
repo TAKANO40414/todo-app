@@ -69,6 +69,16 @@
     .post-form button:disabled { background: #aaa; cursor: not-allowed; }
     .post-form button:not(:disabled):active { background: #444; }
 
+    .field-error {
+      border-color: #c62828 !important;
+    }
+
+    .field-hint {
+      font-size: 12px;
+      color: #c62828;
+      margin-top: -4px;
+    }
+
     main { padding: 16px 20px; max-width: 640px; margin: 0 auto; }
 
     .status {
@@ -127,6 +137,7 @@
 <div class="post-form">
   <input type="text" id="nameInput" placeholder="名前（省略可）" maxlength="50">
   <textarea id="bodyInput" placeholder="メッセージを入力..." maxlength="1000"></textarea>
+  <div id="bodyHint" class="field-hint" style="display:none"></div>
   <button id="postBtn">投稿する</button>
 </div>
 
@@ -151,18 +162,56 @@
   const bodyInput = document.getElementById('bodyInput');
   const postBtn   = document.getElementById('postBtn');
 
+  const NAME_MAX = 50;
+  const BODY_MAX = 1000;
+
   function formatDate(iso) {
+    if (!iso) return '—';
     const d = new Date(iso);
+    if (isNaN(d.getTime())) return '—';
     const pad = n => String(n).padStart(2, '0');
     return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
 
   function escHtml(str) {
-    return str
+    if (str == null) return '';
+    return String(str)
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
+  }
+
+  function validateInputs() {
+    const name = nameInput.value.trim();
+    const body = bodyInput.value.trim();
+    const bodyHint = document.getElementById('bodyHint');
+
+    nameInput.classList.remove('field-error');
+    bodyInput.classList.remove('field-error');
+    bodyHint.style.display = 'none';
+
+    if (!body) {
+      bodyInput.classList.add('field-error');
+      bodyHint.textContent = 'メッセージを入力してください';
+      bodyHint.style.display = 'block';
+      bodyInput.focus();
+      return null;
+    }
+    if (body.length > BODY_MAX) {
+      bodyInput.classList.add('field-error');
+      bodyHint.textContent = `${BODY_MAX}文字以内で入力してください（現在 ${body.length} 文字）`;
+      bodyHint.style.display = 'block';
+      bodyInput.focus();
+      return null;
+    }
+    if (name.length > NAME_MAX) {
+      nameInput.classList.add('field-error');
+      nameInput.focus();
+      return null;
+    }
+
+    return { name: name || null, body };
   }
 
   async function loadPosts() {
@@ -201,15 +250,15 @@
   }
 
   postBtn.addEventListener('click', async () => {
-    const body = bodyInput.value.trim();
-    if (!body) { bodyInput.focus(); return; }
+    const payload = validateInputs();
+    if (!payload) return;
 
     postBtn.disabled = true;
     postBtn.textContent = '投稿中...';
 
     const { error } = await supabase
       .from('messages')
-      .insert({ name: nameInput.value.trim() || null, body });
+      .insert(payload);
 
     postBtn.disabled = false;
     postBtn.textContent = '投稿する';
