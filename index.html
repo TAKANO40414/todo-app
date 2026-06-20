@@ -14,19 +14,138 @@
       min-height: 100dvh;
     }
 
+    /* ── ヘッダー ── */
     header {
       background: #fff;
       border-bottom: 1px solid #e0e0e0;
-      padding: 16px 20px;
+      padding: 14px 20px;
       position: sticky;
       top: 0;
       z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
 
-    header h1 { font-size: 20px; font-weight: 700; }
-    header p  { font-size: 13px; color: #888; margin-top: 2px; }
+    .header-title h1 { font-size: 18px; font-weight: 700; }
+    .header-title p  { font-size: 12px; color: #888; margin-top: 2px; }
 
-    .post-form {
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .user-email {
+      font-size: 13px;
+      color: #555;
+      max-width: 160px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-logout {
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1.5px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      color: #555;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+
+    .btn-logout:hover { background: #f5f5f5; }
+
+    /* ── 認証パネル ── */
+    #authPanel {
+      max-width: 400px;
+      margin: 40px auto 0;
+      padding: 0 20px;
+    }
+
+    .auth-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .auth-card h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .auth-field {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .auth-field input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .auth-field input:focus { border-color: #222; }
+    .auth-field input.field-error { border-color: #c62828; }
+
+    .auth-error {
+      font-size: 13px;
+      color: #c62828;
+      min-height: 18px;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-primary:disabled { background: #aaa; cursor: not-allowed; }
+    .btn-primary:not(:disabled):active { background: #444; }
+
+    .auth-toggle {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    .auth-toggle button {
+      background: none;
+      border: none;
+      color: #222;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+      padding: 0;
+      text-decoration: underline;
+    }
+
+    /* ── 投稿フォーム ── */
+    #postPanel {
       background: #fff;
       border-bottom: 1px solid #e0e0e0;
       padding: 16px 20px;
@@ -35,8 +154,8 @@
       gap: 10px;
     }
 
-    .post-form input,
-    .post-form textarea {
+    #postPanel input,
+    #postPanel textarea {
       width: 100%;
       padding: 10px 14px;
       border: 1.5px solid #ddd;
@@ -48,13 +167,19 @@
       transition: border-color 0.15s;
     }
 
-    .post-form input:focus,
-    .post-form textarea:focus { border-color: #222; }
+    #postPanel input:focus,
+    #postPanel textarea:focus { border-color: #222; }
+    #postPanel textarea { min-height: 80px; }
 
-    .post-form textarea { min-height: 80px; }
+    .field-error { border-color: #c62828 !important; }
+    .field-hint  { font-size: 12px; color: #c62828; margin-top: -4px; }
 
-    .post-form button {
-      align-self: flex-end;
+    #postPanel .post-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    #postPanel button {
       padding: 10px 24px;
       background: #222;
       color: #fff;
@@ -66,19 +191,10 @@
       transition: background 0.15s;
     }
 
-    .post-form button:disabled { background: #aaa; cursor: not-allowed; }
-    .post-form button:not(:disabled):active { background: #444; }
+    #postPanel button:disabled { background: #aaa; cursor: not-allowed; }
+    #postPanel button:not(:disabled):active { background: #444; }
 
-    .field-error {
-      border-color: #c62828 !important;
-    }
-
-    .field-hint {
-      font-size: 12px;
-      color: #c62828;
-      margin-top: -4px;
-    }
-
+    /* ── 投稿一覧 ── */
     main { padding: 16px 20px; max-width: 640px; margin: 0 auto; }
 
     .status {
@@ -106,11 +222,7 @@
       margin-bottom: 6px;
     }
 
-    .post-name {
-      font-weight: 700;
-      font-size: 14px;
-      color: #444;
-    }
+    .post-name { font-weight: 700; font-size: 14px; color: #444; }
 
     .post-time {
       font-size: 12px;
@@ -129,18 +241,46 @@
 </head>
 <body>
 
+<!-- ヘッダー -->
 <header>
-  <h1>📣 みんなの掲示板</h1>
-  <p>ログイン不要・誰でも投稿できます</p>
+  <div class="header-title">
+    <h1>📣 みんなの掲示板</h1>
+    <p id="headerSub">読み込み中...</p>
+  </div>
+  <div class="header-user" id="headerUser" style="display:none">
+    <span class="user-email" id="userEmail"></span>
+    <button class="btn-logout" id="logoutBtn">ログアウト</button>
+  </div>
 </header>
 
-<div class="post-form">
+<!-- 認証パネル（未ログイン時） -->
+<div id="authPanel" style="display:none">
+  <div class="auth-card">
+    <h2 id="authTitle">ログイン</h2>
+    <div class="auth-field">
+      <input type="email"    id="authEmail"    placeholder="メールアドレス" autocomplete="email">
+      <input type="password" id="authPassword" placeholder="パスワード"     autocomplete="current-password">
+    </div>
+    <div class="auth-error" id="authError"></div>
+    <button class="btn-primary" id="authBtn">ログイン</button>
+    <div class="auth-toggle">
+      <span id="authToggleText">アカウントをお持ちでない方は</span>
+      <button id="authToggleBtn">新規登録</button>
+    </div>
+  </div>
+</div>
+
+<!-- 投稿フォーム（ログイン時） -->
+<div id="postPanel" style="display:none">
   <input type="text" id="nameInput" placeholder="名前（省略可）" maxlength="50">
   <textarea id="bodyInput" placeholder="メッセージを入力..." maxlength="1000"></textarea>
   <div id="bodyHint" class="field-hint" style="display:none"></div>
-  <button id="postBtn">投稿する</button>
+  <div class="post-actions">
+    <button id="postBtn">投稿する</button>
+  </div>
 </div>
 
+<!-- 投稿一覧（常時表示） -->
 <main>
   <div id="statusMsg" class="status">読み込み中...</div>
   <div class="post-list" id="postList"></div>
@@ -148,44 +288,120 @@
 
 <script type="module">
   // ── Supabase 設定 ──────────────────────────────────────────
-  const SUPABASE_URL  = 'https://wdhxunlhcbowubhvkqkp.supabase.co';
-  const SUPABASE_ANON = 'sb_publishable_N4ZPJQfqWFRFY4QK1cnexg_fm92SBiu';
+  const SUPABASE_URL  = 'YOUR_SUPABASE_URL';      // ← ここに貼る
+  const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY'; // ← ここに貼る
   // ──────────────────────────────────────────────────────────
 
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
 
-  const postList  = document.getElementById('postList');
-  const statusMsg = document.getElementById('statusMsg');
-  const nameInput = document.getElementById('nameInput');
-  const bodyInput = document.getElementById('bodyInput');
-  const postBtn   = document.getElementById('postBtn');
+  // ── DOM ──
+  const headerSub    = document.getElementById('headerSub');
+  const headerUser   = document.getElementById('headerUser');
+  const userEmailEl  = document.getElementById('userEmail');
+  const logoutBtn    = document.getElementById('logoutBtn');
 
+  const authPanel    = document.getElementById('authPanel');
+  const authTitle    = document.getElementById('authTitle');
+  const authEmail    = document.getElementById('authEmail');
+  const authPassword = document.getElementById('authPassword');
+  const authError    = document.getElementById('authError');
+  const authBtn      = document.getElementById('authBtn');
+  const authToggleText = document.getElementById('authToggleText');
+  const authToggleBtn  = document.getElementById('authToggleBtn');
+
+  const postPanel    = document.getElementById('postPanel');
+  const nameInput    = document.getElementById('nameInput');
+  const bodyInput    = document.getElementById('bodyInput');
+  const bodyHint     = document.getElementById('bodyHint');
+  const postBtn      = document.getElementById('postBtn');
+  const statusMsg    = document.getElementById('statusMsg');
+  const postList     = document.getElementById('postList');
+
+  // ── モード切替（ログイン ↔ 新規登録） ──
+  let isSignUp = false;
+
+  authToggleBtn.addEventListener('click', () => {
+    isSignUp = !isSignUp;
+    authTitle.textContent        = isSignUp ? '新規登録' : 'ログイン';
+    authBtn.textContent          = isSignUp ? '登録する' : 'ログイン';
+    authToggleText.textContent   = isSignUp ? 'すでにアカウントをお持ちの方は' : 'アカウントをお持ちでない方は';
+    authToggleBtn.textContent    = isSignUp ? 'ログイン' : '新規登録';
+    authError.textContent        = '';
+    authEmail.classList.remove('field-error');
+    authPassword.classList.remove('field-error');
+  });
+
+  // ── 認証送信 ──
+  authBtn.addEventListener('click', async () => {
+    authError.textContent = '';
+    authEmail.classList.remove('field-error');
+    authPassword.classList.remove('field-error');
+
+    const email    = authEmail.value.trim();
+    const password = authPassword.value;
+
+    if (!email)    { authEmail.classList.add('field-error');    authEmail.focus();    return; }
+    if (!password) { authPassword.classList.add('field-error'); authPassword.focus(); return; }
+
+    authBtn.disabled    = true;
+    authBtn.textContent = isSignUp ? '登録中...' : 'ログイン中...';
+
+    const { error } = isSignUp
+      ? await supabase.auth.signUp({ email, password })
+      : await supabase.auth.signInWithPassword({ email, password });
+
+    authBtn.disabled    = false;
+    authBtn.textContent = isSignUp ? '登録する' : 'ログイン';
+
+    if (error) {
+      authError.textContent = translateAuthError(error.message);
+      return;
+    }
+
+    if (isSignUp) {
+      authError.style.color = '#388e3c';
+      authError.textContent = '確認メールを送りました。メールを確認してログインしてください。';
+    }
+  });
+
+  // ── Enter キーで送信 ──
+  [authEmail, authPassword].forEach(el => {
+    el.addEventListener('keydown', e => { if (e.key === 'Enter') authBtn.click(); });
+  });
+
+  // ── ログアウト ──
+  logoutBtn.addEventListener('click', async () => {
+    await supabase.auth.signOut();
+  });
+
+  // ── 認証状態の監視（ログイン／ログアウトで UI を切り替え） ──
+  supabase.auth.onAuthStateChange((_event, session) => {
+    if (session?.user) {
+      // ログイン中
+      userEmailEl.textContent  = session.user.email;
+      headerUser.style.display = 'flex';
+      headerSub.textContent    = 'ログイン中';
+      authPanel.style.display  = 'none';
+      postPanel.style.display  = 'flex';
+    } else {
+      // 未ログイン
+      headerUser.style.display = 'none';
+      headerSub.textContent    = '投稿にはログインが必要です';
+      authPanel.style.display  = 'block';
+      postPanel.style.display  = 'none';
+    }
+    loadPosts();
+  });
+
+  // ── 投稿バリデーション ──
   const NAME_MAX = 50;
   const BODY_MAX = 1000;
 
-  function formatDate(iso) {
-    if (!iso) return '—';
-    const d = new Date(iso);
-    if (isNaN(d.getTime())) return '—';
-    const pad = n => String(n).padStart(2, '0');
-    return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  }
-
-  function escHtml(str) {
-    if (str == null) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  function validateInputs() {
+  function validatePost() {
     const name = nameInput.value.trim();
     const body = bodyInput.value.trim();
-    const bodyHint = document.getElementById('bodyHint');
 
     nameInput.classList.remove('field-error');
     bodyInput.classList.remove('field-error');
@@ -193,14 +409,14 @@
 
     if (!body) {
       bodyInput.classList.add('field-error');
-      bodyHint.textContent = 'メッセージを入力してください';
+      bodyHint.textContent   = 'メッセージを入力してください';
       bodyHint.style.display = 'block';
       bodyInput.focus();
       return null;
     }
     if (body.length > BODY_MAX) {
       bodyInput.classList.add('field-error');
-      bodyHint.textContent = `${BODY_MAX}文字以内で入力してください（現在 ${body.length} 文字）`;
+      bodyHint.textContent   = `${BODY_MAX}文字以内で入力してください（現在 ${body.length} 文字）`;
       bodyHint.style.display = 'block';
       bodyInput.focus();
       return null;
@@ -214,11 +430,38 @@
     return { name: name || null, body };
   }
 
+  // ── 投稿送信 ──
+  postBtn.addEventListener('click', async () => {
+    const payload = validatePost();
+    if (!payload) return;
+
+    postBtn.disabled    = true;
+    postBtn.textContent = '投稿中...';
+
+    const { error } = await supabase.from('messages').insert(payload);
+
+    postBtn.disabled    = false;
+    postBtn.textContent = '投稿する';
+
+    if (error) {
+      alert(`投稿に失敗しました: ${error.message}`);
+      return;
+    }
+
+    bodyInput.value = '';
+    await loadPosts();
+  });
+
+  bodyInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); postBtn.click(); }
+  });
+
+  // ── 投稿一覧の読み込み ──
   async function loadPosts() {
-    statusMsg.textContent = '読み込み中...';
-    statusMsg.className = 'status';
-    statusMsg.style.display = 'block';
-    postList.innerHTML = '';
+    statusMsg.textContent    = '読み込み中...';
+    statusMsg.className      = 'status';
+    statusMsg.style.display  = 'block';
+    postList.innerHTML       = '';
 
     const { data, error } = await supabase
       .from('messages')
@@ -228,7 +471,7 @@
 
     if (error) {
       statusMsg.textContent = `エラー: ${error.message}`;
-      statusMsg.className = 'status error';
+      statusMsg.className   = 'status error';
       return;
     }
 
@@ -249,38 +492,30 @@
     `).join('');
   }
 
-  postBtn.addEventListener('click', async () => {
-    const payload = validateInputs();
-    if (!payload) return;
+  // ── ユーティリティ ──
+  function escHtml(str) {
+    if (str == null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
 
-    postBtn.disabled = true;
-    postBtn.textContent = '投稿中...';
+  function formatDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '—';
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
 
-    const { error } = await supabase
-      .from('messages')
-      .insert(payload);
-
-    postBtn.disabled = false;
-    postBtn.textContent = '投稿する';
-
-    if (error) {
-      alert(`投稿に失敗しました: ${error.message}`);
-      return;
-    }
-
-    bodyInput.value = '';
-    await loadPosts();
-  });
-
-  // Shift+Enter で改行、Enter 単独で投稿
-  bodyInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      postBtn.click();
-    }
-  });
-
-  loadPosts();
+  function translateAuthError(msg) {
+    if (msg.includes('Invalid login credentials')) return 'メールアドレスまたはパスワードが正しくありません';
+    if (msg.includes('Email not confirmed'))        return 'メールアドレスの確認が完了していません';
+    if (msg.includes('User already registered'))    return 'このメールアドレスはすでに登録されています';
+    if (msg.includes('Password should be'))         return 'パスワードは6文字以上で入力してください';
+    if (msg.includes('Unable to validate'))         return 'メールアドレスの形式が正しくありません';
+    return msg;
+  }
 </script>
 
 </body>
